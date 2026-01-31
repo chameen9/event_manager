@@ -7,27 +7,28 @@
 
 	<!-- Meta -->
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="dexignlabs">
-	<meta name="robots" content="index, follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="ESOFT Metro Campus Galle">
+    <meta name="robots" content="index, follow">
 
-	<meta name="keywords" content="admin, dashboard, admin dashboard, admin template, template, admin panel, administration, analytics, bootstrap, modern, responsive, creative, retina ready, modern Dashboard responsive dashboard, responsive template, user experience, user interface, Bootstrap Dashboard, Analytics Dashboard, Customizable Admin Panel, EduMin template, ui kit, web app, EduMin, School Management,Dashboard Template, academy, course, courses, e-learning, education, learning, learning management system, lms, school, student, teacher">   
+    <meta name="keywords" content="ESOFT, ESOFT Metro Campus Galle, Annual Awards Ceremony 2026, graduation ceremony, awards ceremony, higher education Sri Lanka, diplomas, certificates, student achievements, academic awards, ESOFT events, campus events, education Sri Lanka">
 
-	<meta name="description" content="EduMin - Empower your educational institution with the all-in-one Education Admin Dashboard Template. Streamline administrative tasks, manage courses, track student performance, and gain valuable insights with ease. Elevate your education management experience with a modern, responsive, and feature-packed solution. Explore EduMin now for a smarter, more efficient approach to education administration.">
+    <meta name="description" content="The Annual Awards Ceremony 2026 by ESOFT Metro Campus Galle celebrates student achievements, academic excellence, and successful program completions. Join us in recognizing graduates and outstanding performers at this prestigious academic event.">
 
-	<meta property="og:title" content="EduMin - Education Admin Dashboard Template | dexignlabs">
-	<meta property="og:description" content="EduMin - Empower your educational institution with the all-in-one Education Admin Dashboard Template. Streamline administrative tasks, manage courses, track student performance, and gain valuable insights with ease. Elevate your education management experience with a modern, responsive, and feature-packed solution. Explore EduMin now for a smarter, more efficient approach to education administration.">
-	
-	<meta property="og:image" content="https://edumin.dexignlab.com/xhtml/social-image.png">
+    <meta property="og:title" content="Annual Awards Ceremony 2026 | ESOFT Metro Campus Galle">
+    <meta property="og:description" content="Celebrate academic excellence at the Annual Awards Ceremony 2026 by ESOFT Metro Campus Galle. Honoring graduates and student achievements across academic programs.">
+    <meta property="og:image" content="{{ asset('images/event_icon.jpeg') }}">
+    <meta property="og:type" content="website">
 
-	<meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="telephone=no">
 
-	<meta name="twitter:title" content="EduMin - Education Admin Dashboard Template | dexignlabs">
-	<meta name="twitter:description" content="EduMin - Empower your educational institution with the all-in-one Education Admin Dashboard Template. Streamline administrative tasks, manage courses, track student performance, and gain valuable insights with ease. Elevate your education management experience with a modern, responsive, and feature-packed solution. Explore EduMin now for a smarter, more efficient approach to education administration.">
+    <meta name="twitter:title" content="Annual Awards Ceremony 2026 | ESOFT Metro Campus Galle">
+    <meta name="twitter:description" content="Join the Annual Awards Ceremony 2026 at ESOFT Metro Campus Galle to celebrate student success, academic milestones, and excellence in higher education.">
+    <meta name="twitter:image" content="{{ asset('images/event_icon.jpeg') }}">
+    <meta name="twitter:card" content="summary_large_image">
 
-	<meta name="twitter:image" content="https://edumin.dexignlab.com/xhtml/social-image.png">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="icon" type="image/png" sizes="16x16" href="https://esoft.lk/wp-content/uploads/2023/11/cropped-favicon-32x32-1.png">
 	
 	<!-- STYLESHEETS -->
@@ -46,7 +47,7 @@
                         <div class="card-body">
                             <div class="text-center mb-2">
                                 <a href="{{url('/')}}">
-                                    <img src="/images/esoft-logo.jpg" alt="" width="100" height="auto">                                                                                    
+                                    <img src="/images/esoft-logo.jpg" alt="ESOFT" width="100" height="auto">                                                                                    
                                 </a>
                             </div>
                             <h4 class="text-center mb-4">Annual Awards Ceremony 2026</h4>

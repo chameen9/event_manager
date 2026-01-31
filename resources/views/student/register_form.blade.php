@@ -90,12 +90,13 @@
             <div class="row">
                 <div class="col-xl-12 col-xxl-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                <img src="/images/esoft-logo.jpg" alt="" width="50" height="auto">
-                                &nbsp; Annual Awards Ceremony 2026 - Registration</h4>
-                        </div>
                         <div class="card-body">
+                            <div class="text-center mb-2">
+                                <a href="{{url('/')}}">
+                                    <img src="/images/esoft-logo.jpg" alt="ESOFT" width="100" height="auto">                                                                                    
+                                </a>
+                            </div>
+                            <h4 class="text-center mb-4">Annual Awards Ceremony 2026</h4>
                             <div id="smartwizard" class="form-wizard order-create">
                                 <ul class="nav nav-wizard">
                                     <li><a class="nav-link" href="#student_details"> 
@@ -236,7 +237,7 @@
                                                 <h4 class="mb-4">Payment Details</h4>
                                                 <div class="row">
                                                     <div class="col-sm-4 mb-2">
-                                                        <span>Package<span class="required">*</span></span>
+                                                        <span><strong>Package</strong><span class="required">*</span></span>
                                                     </div>
                                                     <div class="col-8 col-sm-5 mb-2">
                                                         <span>
@@ -257,7 +258,7 @@
                                             <div class="row align-items-center">
                                                 <div class="row">
                                                     <div class="col-sm-4 mb-2">
-                                                        <span>Photos</span>
+                                                        <span><strong>Photos</strong></span>
                                                     </div>
                                                     <div class="col-8 col-sm-5 mb-2">
                                                         <div class="mb-3 row">
@@ -294,7 +295,7 @@
                                             <div class="row align-items-center">
                                                 <div class="row">
                                                     <div class="col-sm-4 mb-2">
-                                                        <span>Additional Seats</span>
+                                                        <span><strong>Additional Seats</strong></span>
                                                     </div>
                                                     <div class="col-8 col-sm-5 mb-2">
                                                         <div class="mb-3 row">
@@ -317,7 +318,7 @@
                                             <div class="row align-items-center">
                                                 <div class="row">
                                                     <div class="col-sm-4 mb-2">
-                                                        <span>Shuttle Service</span>
+                                                        <span><strong>Shuttle Service</strong></span>
                                                     </div>
                                                     <div class="col-8 col-sm-5 mb-2">
                                                         <div class="mb-3 row">
