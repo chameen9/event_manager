@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Registration extends Model
 {
-    protected $fillable = ['student_id', 'program_id', 'batch_id', 'status'];
+    protected $fillable = ['student_id', 'program_id', 'batch_id', 'status','registered_at'];
 
     public function student()
     {

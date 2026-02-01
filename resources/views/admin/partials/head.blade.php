@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="vendor/jqvmap/css/jqvmap.min.css">
 	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
 	<link rel="stylesheet" href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+	<link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <link class="main-css" rel="stylesheet" href="css/style.css">
 
 </head>

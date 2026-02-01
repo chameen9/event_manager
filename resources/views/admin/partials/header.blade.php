@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-                    <p>Event Manager</p>
+                    <!-- <p>Event Manager</p> -->
                 </div>
 
                 <ul class="navbar-nav header-right">
@@ -13,7 +13,7 @@
                             <i id="icon-dark" class="fas fa-moon"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown notification_dropdown">
+                    <!-- <li class="nav-item dropdown notification_dropdown">
                         <a class="nav-link bell-link " href="javascript:void(0);">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22.871" viewBox="0 0 24 22.871">
                             <g  data-name="Layer 2" transform="translate(-2 -2)">
@@ -152,7 +152,7 @@
                             </ul>
                         </div>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                             <img src="images/profile/education/pic1.jpg" width="20" alt=""/>

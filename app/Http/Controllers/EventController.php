@@ -18,16 +18,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class StudentController extends Controller
+class EventController extends Controller
 {
     public function checkEligibility(Request $request){
         $studentID = $request->input('studentID');
         $student = Student::where('student_id', $studentID)->first();
-        $registration = EventRegistration::where('student_id', $student->id);
-        if($registration){
-            return back()->with('error', 'You have already registered for the Annual Awards Ceremony 2026.');
-        }
+        //dd($studentID,$student);
         if ($student) {
+            $registration = EventRegistration::where('student_id', $student->id)->first();
+            //dd($registration);
+            if($registration){
+                return back()->with('error', 'You have already registered for the Annual Awards Ceremony 2026.');
+            }
+
             return redirect()->route('student.registerStudent', ['studentID' => $studentID]);
             //return back()->with('success', 'Congratulations! You are eligible for the Annual Awards Ceremony 2026.');
         }
@@ -100,7 +103,7 @@ class StudentController extends Controller
                 ->with('error', 'Your Student ID does not match with our records. Contact the campus and clarify the issue.');
         }
 
-        $isExists = EventRegistration::where('student_id', $student->id)->where('event_id', $thisEventId)->get();
+        $isExists = EventRegistration::where('student_id', $student->id)->where('event_id', $thisEventId)->first();
         if($isExists){
             return redirect()
                 ->route('student.registerStudent', ['studentID' => $studentID])
@@ -212,29 +215,33 @@ class StudentController extends Controller
         EventLog::create([
             'event_registration_id' => $eventRegistration->id,
             'action' => 'Registration',
-            'description' => "Registration created under ".$eventRegistration->id,
+            'description' => "Registration created under #".$eventRegistration->id,
             'created_at' => now()
         ]);
 
         if($request->input('email') !== $student->email){
-            EventLog::create([
-                'event_registration_id' => $eventRegistration->id,
-                'action' => 'Registration',
-                'description' => "email updated. old: ".$student->email,
-                'created_at' => now()
-            ]);
+            if($student->email){
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => "email updated. old: ".$student->email,
+                    'created_at' => now()
+                ]);
+            }
             $student->update([
                 'email' => $request->input('email'),
             ]);
         }
 
         if($request->input('phone') !== $student->phone){
-            EventLog::create([
-                'event_registration_id' => $eventRegistration->id,
-                'action' => 'Registration',
-                'description' => "phone updated. old: ".$student->phone,
-                'created_at' => now()
-            ]);
+            if($student->phone){
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => "phone updated. old: ".$student->phone,
+                    'created_at' => now()
+                ]);
+            }
             $student->update([
                 'phone' => $request->input('phone'),
             ]);
@@ -251,7 +258,7 @@ class StudentController extends Controller
         EventLog::create([
             'event_registration_id' => $eventRegistration->id,
             'action' => 'Payment',
-            'description' => 'Payment created'.$thisPayment->id,
+            'description' => 'Payment created #'.$thisPayment->id,
             'created_at' => now()
         ]);
 
@@ -327,7 +334,7 @@ class StudentController extends Controller
             EventLog::create([
                 'event_registration_id' => $eventRegistration->id,
                 'action' => 'Registration',
-                'description' => $validated['shuttle_seat_count']. ' seats reseerved in shuttle service',
+                'description' => $validated['shuttle_seat_count']. ' seats reserved in shuttle service',
                 'created_at' => now()
             ]);
         }
@@ -339,11 +346,11 @@ class StudentController extends Controller
         }
 
         Notification::create([
-            'student_id' => $studentID,
+            'student_id' => $student->id,
             'channel' => 'email',
             'subject' => 'Registration Confirmed',
             'message' => $message,
-            'sent_at' => null
+            //'sent_at' => null
         ]);
 
         return redirect()
@@ -388,5 +395,4 @@ class StudentController extends Controller
     private function getNextSeatNumber(int $eventId): int{
         return \App\Models\EventRegistration::where('event_id', $eventId)->count() + 1;
     }
-
 }

@@ -26,3 +26,7 @@
 
 <script src="js/custom.min.js"></script>
 <script src="js/dlabnav-init.js"></script>
+
+<!-- Datatable -->
+<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="js/plugins-init/datatables.init.js"></script>

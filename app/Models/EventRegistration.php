@@ -8,15 +8,26 @@ class EventRegistration extends Model
 {
     protected $fillable = ['event_id','student_id','qr_code','status'];
 
-    public function payments() {
-        return $this->hasMany(Payment::class);
+    public function payment() {
+        return $this->hasOne(Payment::class);
     }
 
-    public function photoPackage() {
-        return $this->hasOne(EventRegistrationPhotoPackage::class);
+    public function photoPackages()
+    {
+        return $this->hasMany(EventPhotoPackage::class, 'event_registration_id');
     }
 
     public function seat() {
-        return $this->hasOne(EventRegistrationSeat::class);
+        return $this->hasOne(EventSeat::class);
+    }
+
+    public function shuttleSeats()
+    {
+        return $this->hasOne(EventShuttle::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(EventLog::class)->orderBy('id', 'desc');
     }
 }
