@@ -23,14 +23,19 @@
                 <form action="{{ route('admin.students.update', $studentData['student']->id) }}" method="post">
                     <div class="card-header">
                         <h5 class="card-title">Basic Info</h5>
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addPaymentModal"
-                        >
-                            <i class="fas fa-plus"></i> New Payment
-                        </button>
+                        <div class="btn-group">
+                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Photo</button>
+                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Additional Seat</button>
+                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Shuttle Seat</button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addPaymentModal"
+                            >
+                                <i class="fas fa-plus"></i> New Payment
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
