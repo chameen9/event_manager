@@ -34,4 +34,7 @@
 	<link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <link class="main-css" rel="stylesheet" href="css/style.css">
 
+	<!-- Toaster -->
+	<link rel="stylesheet" href="vendor/toastr/css/toastr.min.css">
+
 </head>

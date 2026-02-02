@@ -297,18 +297,42 @@
                                                     <div class="col-sm-4 mb-2">
                                                         <span><strong>Additional Seats</strong></span>
                                                     </div>
-                                                    <div class="col-8 col-sm-5 mb-2">
-                                                        <div class="mb-3 row">
-                                                            <label class="col-sm-6 col-form-label" style="font-weight: normal;">Seat Count</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="number" class="form-control" id="additional_seat_count" name="additional_seat_count" value="{{ old('additional_seat_count', 0) }}" min="0" max="5" required>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="mb-3 row">
-                                                            <p class="text-muted">LKR. 1500 will be added for each additional seat</p>
-                                                        </div>
+                                                    <div class="col-8 col-sm-5 mb-2">
+                                                        @if($additionalSeatsAvailable)
+
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-6 col-form-label" style="font-weight: normal;">
+                                                                    Seat Count
+                                                                </label>
+                                                                <div class="col-sm-3">
+                                                                    <input
+                                                                        type="number"
+                                                                        class="form-control"
+                                                                        id="additional_seat_count"
+                                                                        name="additional_seat_count"
+                                                                        value="{{ old('additional_seat_count', 0) }}"
+                                                                        min="0"
+                                                                        max="5"
+                                                                    >
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <p class="text-muted">
+                                                                    LKR. 1500 will be added for each additional seat
+                                                                </p>
+                                                            </div>
+
+                                                        @else
+                                                            <input type="hidden" name="additional_seat_count" value="0">
+
+                                                            <div class="alert alert-warning mb-0">
+                                                                Additional seats are fully booked for this event.
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                     <div class="col-4 col-sm-3 mb-2">
                                                         <span id="additional_seat_total" class="float-end">LKR. 0.00</span>
                                                     </div>
@@ -321,16 +345,24 @@
                                                         <span><strong>Shuttle Service</strong></span>
                                                     </div>
                                                     <div class="col-8 col-sm-5 mb-2">
-                                                        <div class="mb-3 row">
-                                                            <label class="col-sm-6 col-form-label" style="font-weight: normal;">Seat Count</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="number" class="form-control" id="shuttle_seat_count" name="shuttle_seat_count" value="{{ old('shuttle_seat_count', 0) }}" min="0" max="7" required>
+                                                        @if($shuttleSeatsAvailable)
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-6 col-form-label" style="font-weight: normal;">Seat Count</label>
+                                                                <div class="col-sm-3">
+                                                                    <input type="number" class="form-control" id="shuttle_seat_count" name="shuttle_seat_count" value="{{ old('shuttle_seat_count', 0) }}" min="0" max="7">
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="mb-3 row">
-                                                            <p class="text-muted">LKR. 1000 will be added for each seat in shuttle service</p>
-                                                        </div>
+                                                            <div class="mb-3 row">
+                                                                <p class="text-muted">LKR. 1000 will be added for each seat in shuttle service</p>
+                                                            </div>
+                                                        @else
+                                                            <input type="hidden" name="shuttle_seat_count" value="0">
+
+                                                            <div class="alert alert-warning mb-0">
+                                                                Shuttle seats are fully booked for this event.
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="col-4 col-sm-3 mb-2">
                                                         <span id="shuttle_seat_total" class="float-end">LKR. 0.00</span>

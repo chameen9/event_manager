@@ -15,7 +15,7 @@
 										<div class="progress mb-2 bg-white">
                                             <div class="progress-bar progress-animated bg-white" style="width: {{$registeredPercentage}}%"></div>
                                         </div>
-										<small>{{$registeredPercentage}}% Registered</small>
+										<small>{{number_format($registeredPercentage, 2)}}% Registered</small>
 									</div>
 								</div>
 							</div>
@@ -72,7 +72,7 @@
 										<div class="progress mb-2 bg-white">
                                             <div class="progress-bar progress-animated bg-white" style="width: {{$completedPaymentsPercentage}}%"></div>
                                         </div>
-										<small>{{$completedPaymentsPercentage}}% paid from {{$allPaymentsCount}}</small>
+										<small>{{number_format($completedPaymentsPercentage,2)}}% paid from {{$allPaymentsCount}}</small>
 									</div>
 								</div>
 							</div>

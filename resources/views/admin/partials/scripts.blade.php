@@ -30,3 +30,7 @@
 <!-- Datatable -->
 <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="js/plugins-init/datatables.init.js"></script>
+
+<!-- Toastr -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/plugins-init/toastr-init.js"></script>

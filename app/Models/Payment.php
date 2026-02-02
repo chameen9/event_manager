@@ -18,4 +18,9 @@ class Payment extends Model
     {
         return $this->belongsTo(EventRegistration::class);
     }
+
+    public function histories()
+    {
+        return $this->hasMany(PaymentHistory::class);
+    }
 }

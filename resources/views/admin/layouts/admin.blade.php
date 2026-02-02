@@ -23,6 +23,8 @@
 
         @include('admin.partials.scripts')
 
+        @include('admin.partials.notifications')
+
     </div>
     
 </body>

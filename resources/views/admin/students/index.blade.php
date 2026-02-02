@@ -49,7 +49,10 @@
                                         <tr>
                                             <td>{{ $data['student']->id }}</td>
                                             <td>{{ $data['student']->student_id }}</td>
-                                            <td>{{ $data['student']->full_name }}</td>
+                                            <td>
+                                                {!! \Illuminate\Support\Str::limit(strip_tags($data['student']->full_name), 30) !!}
+                                                <!-- {{ $data['student']->full_name }} -->
+                                            </td>
                                             <td>
                                                 @foreach ($data['programs'] as $program)
                                                     <div>

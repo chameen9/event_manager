@@ -30,4 +30,9 @@ class EventRegistration extends Model
     {
         return $this->hasMany(EventLog::class)->orderBy('id', 'desc');
     }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(PaymentHistory::class);
+    }
 }

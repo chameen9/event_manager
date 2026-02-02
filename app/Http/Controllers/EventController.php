@@ -12,6 +12,7 @@ use App\Models\EventShuttle;
 use App\Models\Payment;
 use App\Models\EventLog;
 use App\Models\Notification;
+use App\Models\EventData;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -20,26 +21,63 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
+    // public function checkEligibility(Request $request){
+    //     $studentID = $request->input('studentID');
+    //     $student = Student::where('student_id', $studentID)->first();
+    //     //dd($studentID,$student);
+    //     if ($student) {
+    //         $registration = EventRegistration::where('student_id', $student->id)->first();
+    //         //dd($registration);
+    //         if($registration){
+    //             return back()->with('error', 'You have already registered for the Annual Awards Ceremony 2026.');
+    //         }
+
+    //         return redirect()->route('student.registerStudent', ['studentID' => $studentID]);
+    //         //return back()->with('success', 'Congratulations! You are eligible for the Annual Awards Ceremony 2026.');
+    //     }
+    //     else{
+    //         return back()->with('error', 'Sorry, maybe your batch is not yet eligible for the Annual Awards Ceremony 2026.');
+    //     }
+    // }
+
     public function checkEligibility(Request $request){
         $studentID = $request->input('studentID');
-        $student = Student::where('student_id', $studentID)->first();
-        //dd($studentID,$student);
-        if ($student) {
-            $registration = EventRegistration::where('student_id', $student->id)->first();
-            //dd($registration);
-            if($registration){
-                return back()->with('error', 'You have already registered for the Annual Awards Ceremony 2026.');
-            }
 
-            return redirect()->route('student.registerStudent', ['studentID' => $studentID]);
-            //return back()->with('success', 'Congratulations! You are eligible for the Annual Awards Ceremony 2026.');
+        $student = Student::where('student_id', $studentID)->first();
+
+        if (!$student) {
+            return back()->with('error', 'Sorry, maybe your batch is not yet eligible for the Annual Awards Ceremony 2026.');
         }
-        else{
-            return back()->with('error', 'Sorry, you are not eligible for the Annual Awards Ceremony 2026.');
+
+        // Check if already registered
+        $alreadyRegistered = EventRegistration::where('student_id', $student->id)->exists();
+
+        if ($alreadyRegistered) {
+            return back()->with('error', 'You have already registered for the Annual Awards Ceremony 2026.');
         }
+
+        // Get event seat limits
+        $eventId = 1; // or dynamic if you have multiple events
+
+        $maxSeatCount = EventData::where('event_id', $eventId)->value('max_seat_count');
+
+        $currentSeatCount = EventRegistration::where('event_id', $eventId)->count();
+
+        if ($maxSeatCount !== null && $currentSeatCount >= $maxSeatCount) {
+            return back()->with('error', 'Registrations are closed. Maximum seat capacity has been reached.');
+        }
+
+        // Eligible → proceed
+        return redirect()->route('student.registerStudent', [
+            'studentID' => $studentID
+        ]);
     }
 
+
     public function registerStudent($studentID){
+        $eventId = 1;
+        $additionalSeatsAvailable = $this->hasAdditionalSeatsAvailable($eventId);
+        $shuttleSeatsAvailable = $this->hasShuttleSeatsAvailable($eventId);
         $student = Student::where('student_id', $studentID)
             ->with([
                 'registrations.program.modules',
@@ -84,6 +122,8 @@ class EventController extends Controller
             'student'           => $student,
             'registrationsData' => $registrationsData,
             'hasIncompletePrograms' => $hasIncompletePrograms,
+            'additionalSeatsAvailable' => $additionalSeatsAvailable,
+            'shuttleSeatsAvailable' => $shuttleSeatsAvailable,
         ]);
     }
 
@@ -291,22 +331,60 @@ class EventController extends Controller
             ]);
         }
 
-        // Handle additional seats and seat number
+        // -------------------------------
+        // Seat + capacity calculations
+        // -------------------------------
         $seatNumber = $this->getNextSeatNumber($thisEventId);
 
-        if($validated['additional_seat_count'] > 0){
-            $additionalSeatCount = $validated['additional_seat_count'];
-            $additionalSeatPrice = ($validated['additional_seat_count'] * additional_seat_price('Additional'));
-            EventLog::create([
-                'event_registration_id' => $eventRegistration->id,
-                'action' => 'Registration',
-                'description' => $additionalSeatCount. ' additional seats reserved',
-                'created_at' => now()
-            ]);
-        }
-        else{
-            $additionalSeatCount = 0;
-            $additionalSeatPrice = 0.00;
+        $eventData = EventData::where('event_id', $thisEventId)->firstOrFail();
+
+        $maxAdditionalSeatCount = (int) $eventData->max_additional_seat_count;
+        $currentAdditionalSeatCount = (int) EventSeat::whereHas('eventRegistration', function ($q) use ($thisEventId) {
+            $q->where('event_id', $thisEventId);
+        })->sum('additional_seat_count');
+
+        $requestedAdditionalSeats = (int) $validated['additional_seat_count'];
+
+        // Defaults
+        $additionalSeatCount = 0;
+        $additionalSeatPrice = 0.00;
+
+        // -------------------------------
+        // Handle additional seats
+        // -------------------------------
+        if ($requestedAdditionalSeats > 0) {
+
+            if (($currentAdditionalSeatCount + $requestedAdditionalSeats) > $maxAdditionalSeatCount) {
+
+                // Capacity exceeded
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => $requestedAdditionalSeats . ' additional seats denied (capacity exceeded)',
+                    'created_at' => now(),
+                ]);
+
+            } else {
+
+                // Reserve seats
+                $additionalSeatCount = $requestedAdditionalSeats;
+                $additionalSeatPrice = $requestedAdditionalSeats * additional_seat_price('Additional');
+
+                EventSeat::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'seat_number' => $seatNumber,
+                    'additional_seat_count' => $additionalSeatCount,
+                    'price' => $additionalSeatPrice,
+                    'created_at' => now(),
+                ]);
+
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => $additionalSeatCount . ' additional seats reserved',
+                    'created_at' => now(),
+                ]);
+            }
         }
 
         $seat = EventSeat::create([
@@ -323,21 +401,39 @@ class EventController extends Controller
             'created_at' => now()
         ]);
 
-        // Handle shuttle seats
-        if($validated['shuttle_seat_count'] > 0){
-            EventShuttle::create([
-                'event_registration_id' => $eventRegistration->id,
-                'shuttle_seat_count' => $validated['shuttle_seat_count'],
-                'price' => ($validated['shuttle_seat_count'] * shuttle_seat_price('Shuttle')),
-                'created_at' => now()
-            ]);
-            EventLog::create([
-                'event_registration_id' => $eventRegistration->id,
-                'action' => 'Registration',
-                'description' => $validated['shuttle_seat_count']. ' seats reserved in shuttle service',
-                'created_at' => now()
-            ]);
+        //Handle Shuttle Seats
+        $maxShuttleSeatCount     = (int) $eventData->max_shuttle_seat_count;
+        $currentShuttleSeatCount = (int) EventShuttle::sum('shuttle_seat_count');
+
+        $shuttleSeatCount = (int) $validated['shuttle_seat_count'];
+
+        if ($shuttleSeatCount > 0) {
+
+            if (($currentShuttleSeatCount + $shuttleSeatCount) <= $maxShuttleSeatCount) {
+
+                EventShuttle::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'shuttle_seat_count' => $shuttleSeatCount,
+                    'price' => $shuttleSeatCount * shuttle_seat_price('Shuttle'),
+                ]);
+
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => $shuttleSeatCount . ' seats reserved in shuttle service',
+                ]);
+
+            } else {
+
+                EventLog::create([
+                    'event_registration_id' => $eventRegistration->id,
+                    'action' => 'Registration',
+                    'description' => $shuttleSeatCount . ' shuttle seats denied due to capacity limit',
+                ]);
+            }
         }
+
+        //Change the mail body using this values
         if($hasIncompletePrograms){
             $message = 'Incomplete';
         }
@@ -359,6 +455,7 @@ class EventController extends Controller
             ->withFragment('summary');
     }
 
+    //Helpers
     private function hasIncompleteModules(string $studentID): bool{
         $student = Student::where('student_id', $studentID)
             ->with([
@@ -393,6 +490,53 @@ class EventController extends Controller
     }
 
     private function getNextSeatNumber(int $eventId): int{
-        return \App\Models\EventRegistration::where('event_id', $eventId)->count() + 1;
+        $lastSeatNumber = EventSeat::whereHas('eventRegistration', function ($q) use ($eventId) {
+                $q->where('event_id', $eventId);
+            })
+            ->max('seat_number');
+
+        return ($lastSeatNumber ?? 0) + 1;
+    }
+
+    private function hasSeatsAvailable(int $eventId): bool{
+        $maxSeatCount = EventData::where('event_id', $eventId)
+            ->value('max_seat_count');
+
+        // If event does not define a limit, treat as unavailable
+        if (!$maxSeatCount || $maxSeatCount <= 0) {
+            return false;
+        }
+
+        $currentAdditionalSeatCount = EventSeat::sum('additional_seat_count');
+
+        return $currentAdditionalSeatCount < $maxAdditionalSeatCount;
+    }
+
+    private function hasAdditionalSeatsAvailable(int $eventId): bool{
+        $maxAdditionalSeatCount = EventData::where('event_id', $eventId)
+            ->value('max_additional_seat_count');
+
+        // If event does not define a limit, treat as unavailable
+        if (!$maxAdditionalSeatCount || $maxAdditionalSeatCount <= 0) {
+            return false;
+        }
+
+        $currentAdditionalSeatCount = EventSeat::sum('additional_seat_count');
+
+        return $currentAdditionalSeatCount < $maxAdditionalSeatCount;
+    }
+
+    private function hasShuttleSeatsAvailable(int $eventId): bool{
+        $maxShuttleSeatCount = EventData::where('event_id', $eventId)
+            ->value('max_shuttle_seat_count');
+
+        // If event does not define a limit, treat as unavailable
+        if (!$maxShuttleSeatCount || $maxShuttleSeatCount <= 0) {
+            return false;
+        }
+
+        $currentShuttleSeatCount = EventShuttle::sum('shuttle_seat_count');
+
+        return $currentShuttleSeatCount < $maxShuttleSeatCount;
     }
 }

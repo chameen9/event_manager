@@ -20,9 +20,17 @@
     <div class="row">
         <div class="col-xl-9 col-xxl-9 col-sm-12">
             <div class="card">
-                <form action="#" method="post">
+                <form action="{{ route('admin.students.update', $studentData['student']->id) }}" method="post">
                     <div class="card-header">
                         <h5 class="card-title">Basic Info</h5>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addPaymentModal"
+                        >
+                            <i class="fas fa-plus"></i> New Payment
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -278,3 +286,5 @@
 
 
 @endsection
+
+@include('admin.partials.paymentModal')

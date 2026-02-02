@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/students-add', [StudentController::class, 'showAdd'])->name('admin.students.showAdd');
     Route::get('/students-edit-{id}', [StudentController::class, 'showEdit'])->name('admin.students.showEdit');
     Route::get('/students-import', [StudentController::class, 'showImport'])->name('admin.students.showImport');
+    Route::post('/students-update-{id}', [StudentController::class, 'update'])->name('admin.students.update');
+
+    //Manage Payments
+    Route::post('/admin/payments/add', [PaymentController::class, 'store'])->name('admin.payments.store');
 
     Route::post('/admin/import/module-completions', [\App\Http\Controllers\Admin\ModuleImportController::class, 'import'])
         ->name('admin.moduleCompletion.import');
