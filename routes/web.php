@@ -5,6 +5,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\SeatController;
+use App\Http\Controllers\Admin\PhotoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,8 +38,14 @@ Route::middleware('auth')->group(function () {
     //Manage Payments
     Route::post('/admin/payments/add', [PaymentController::class, 'store'])->name('admin.payments.store');
 
-    Route::post('/admin/import/module-completions', [\App\Http\Controllers\Admin\ModuleImportController::class, 'import'])
-        ->name('admin.moduleCompletion.import');
+    //Manage Seats
+    Route::post('/admin/additional-seats/add', [SeatController::class, 'store'])->name('admin.additionalSeats.store');
+    Route::post('/admin/shuttle-seats/add', [SeatController::class, 'shuttleStore'])->name('admin.shuttleSeats.store');
+    
+    //Manage Photos
+    Route::post('/admin/photos/add', [PhotoController::class, 'store'])->name('admin.photos.store');
+
+    Route::post('/admin/import/module-completions', [\App\Http\Controllers\Admin\ModuleImportController::class, 'import'])->name('admin.moduleCompletion.import');
 
     Route::get('/admin/program/{program}/batches', function ($programId) {
             return \App\Models\Batch::where('program_id', $programId)

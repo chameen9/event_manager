@@ -8,4 +8,9 @@ class EventShuttle extends Model
 {
     public $table = 'event_registration_shuttle_seats';
     protected $fillable = ['event_registration_id','shuttle_seat_count','price'];
+
+    public function eventRegistration()
+    {
+        return $this->belongsTo(EventRegistration::class);
+    }
 }

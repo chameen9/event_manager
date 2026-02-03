@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhotoPackage extends Model
 {
-    public $table = 'event_registrations';
+    public $table = 'photo_packages';
     protected $fillable = ['name','description','price'];
 
     public function eventPhotoPackages()

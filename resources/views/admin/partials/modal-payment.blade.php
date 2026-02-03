@@ -1,4 +1,4 @@
-<div class="modal fade" id="addPaymentModal" tabindex="-1" style="z-index: 1055">
+<div class="modal fade" id="addPaymentModal" tabindex="-100">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <form method="POST" action="{{ route('admin.payments.store') }}">
@@ -14,7 +14,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Amount <span class="required">*</span></label>
-                        <input type="number" class="form-control" name="amount" required>
+                        <input type="number" class="form-control" min="0" name="amount" required>
                     </div>
 
                     <div class="mb-3">

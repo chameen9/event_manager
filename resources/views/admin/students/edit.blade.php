@@ -24,9 +24,27 @@
                     <div class="card-header">
                         <h5 class="card-title">Basic Info</h5>
                         <div class="btn-group">
-                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Photo</button>
-                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Additional Seat</button>
-                            <button class="btn light btn-primary"><i class="fas fa-plus"></i> Shuttle Seat</button>
+                            <button 
+                                type="button"
+                                class="btn light btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addPhotosModal"
+                                ><i class="fas fa-plus"></i> Photos
+                            </button>
+                            <button 
+                                type="button"
+                                class="btn light btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addSeatModal"
+                                ><i class="fas fa-plus"></i> Additional Seat
+                            </button>
+                            <button 
+                                type="button"
+                                class="btn light btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addShuttleSeatModal"
+                                ><i class="fas fa-plus"></i> Shuttle Seat
+                            </button>
                             <button
                                 type="button"
                                 class="btn btn-primary"
@@ -292,4 +310,7 @@
 
 @endsection
 
-@include('admin.partials.paymentModal')
+@include('admin.partials.modal-payment')
+@include('admin.partials.modal-seat')
+@include('admin.partials.modal-shuttleseat')
+@include('admin.partials.modal-photos')

@@ -10,6 +10,7 @@ use App\Models\EventRegistration;
 use App\Models\EventPhotoPackage;
 use App\Models\EventSeat;
 use App\Models\EventShuttle;
+use App\Models\EventData;
 use App\Models\Payment;
 use App\Models\EventLog;
 use App\Models\Program;
@@ -157,6 +158,31 @@ class StudentController extends Controller
             ];
         });
 
+        /* -------------------------------------------------
+        | Additional seat availability
+        ------------------------------------------------- */
+        $eventId = 1;
+        $maxAdditionalSeats = EventData::where('event_id', $eventId)
+            ->value('max_additional_seat_count');
+
+        $usedAdditionalSeats = EventSeat::whereHas('eventRegistration', function ($q) use ($eventId) {
+            $q->where('event_id', $eventId);
+        })->sum('additional_seat_count');
+
+        $additionalSeatsAvailable = $usedAdditionalSeats < $maxAdditionalSeats;
+
+        /* -------------------------------------------------
+        | Shuttle seat availability
+        ------------------------------------------------- */
+        $maxShuttleSeats = EventData::where('event_id', $eventId)
+            ->value('max_shuttle_seat_count');
+
+        $usedShuttleSeats = EventShuttle::whereHas('eventRegistration', function ($q) use ($eventId) {
+            $q->where('event_id', $eventId);
+        })->sum('shuttle_seat_count');
+
+        $shuttleSeatsAvailable = $usedShuttleSeats < $maxShuttleSeats;
+
         /*
         |--------------------------------------------------------------------------
         | Final payload to view
@@ -200,7 +226,14 @@ class StudentController extends Controller
 
         //dd($eventData->seat);
 
-        return view('admin.students.edit', compact(['studentData','eventData','eventPhotos','eventPayment']));
+        return view('admin.students.edit', compact([
+            'studentData',
+            'eventData',
+            'eventPhotos',
+            'eventPayment',
+            'additionalSeatsAvailable',
+            'shuttleSeatsAvailable'
+            ]));
 
     }
 
