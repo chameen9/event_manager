@@ -13,7 +13,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{route('admin.students.index')}}">All Students</a></li>
-                    <li><a href="{{route('admin.students.showAdd')}}">Add Students</a></li>
+                    <!-- <li><a href="{{route('admin.students.showAdd')}}">Add Students</a></li> -->
                     <li><a href="{{route('admin.students.showImport')}}">Import Students</a></li>
                 </ul>
             </li>

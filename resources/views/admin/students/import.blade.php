@@ -56,7 +56,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">
-                        Import Module Completion
+                        Import Students
                     </button>
                 </form>
             </div>
@@ -68,29 +68,27 @@
                 <h5 class="card-title">Messages</h5>
             </div>
             <div class="card-body">
-                <form action="#" method="post">
-                    <div class="row">
-                        @if (session('success'))
-                            <div class="alert alert-success mt-3">
-                                <div>{{ session('success') }}</div>
-                            </div>
-                        @endif
-                        @if (session('error'))
-                            <div class="alert alert-danger mt-3">
-                                <div>{{ session('error') }}</div>
-                            </div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                    </div>
-                </form>
+                <div class="row">
+                    @if (session('success'))
+                        <div class="alert alert-success mt-3">
+                            <div>{{ session('success') }}</div>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger mt-3">
+                            <div>{{ session('error') }}</div>
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

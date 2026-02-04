@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SeatController;
 use App\Http\Controllers\Admin\PhotoController;
+use App\Http\Controllers\Admin\EventLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/students-add', [StudentController::class, 'showAdd'])->name('admin.students.showAdd');
     Route::get('/students-edit-{id}', [StudentController::class, 'showEdit'])->name('admin.students.showEdit');
     Route::get('/students-import', [StudentController::class, 'showImport'])->name('admin.students.showImport');
-    Route::post('/students-update-{id}', [StudentController::class, 'update'])->name('admin.students.update');
+    Route::put('/students-update', [StudentController::class, 'update'])->name('admin.students.update');
 
     //Manage Payments
     Route::post('/admin/payments/add', [PaymentController::class, 'store'])->name('admin.payments.store');
@@ -45,7 +46,12 @@ Route::middleware('auth')->group(function () {
     //Manage Photos
     Route::post('/admin/photos/add', [PhotoController::class, 'store'])->name('admin.photos.store');
 
-    Route::post('/admin/import/module-completions', [\App\Http\Controllers\Admin\ModuleImportController::class, 'import'])->name('admin.moduleCompletion.import');
+    //Manage Event Logs
+    Route::post('/admin/eventlog/add', [EventLogController::class, 'store'])->name('admin.eventlog.store');
+
+    Route::post('/admin/import/module-completions', [\App\Http\Controllers\Admin\ModuleController::class, 'import'])->name('admin.moduleCompletion.import');
+    Route::post('/admin/modules/toggle', [App\Http\Controllers\Admin\ModuleController::class, 'toggleModule'])->name('admin.modules.toggle');
+
 
     Route::get('/admin/program/{program}/batches', function ($programId) {
             return \App\Models\Batch::where('program_id', $programId)

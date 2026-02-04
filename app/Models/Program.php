@@ -12,4 +12,9 @@ class Program extends Model
     {
         return $this->hasMany(Module::class);
     }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
 }

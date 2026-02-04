@@ -34,3 +34,5 @@
 <!-- Toastr -->
 <script src="vendor/toastr/js/toastr.min.js"></script>
 <script src="js/plugins-init/toastr-init.js"></script>
+
+@stack('scripts')

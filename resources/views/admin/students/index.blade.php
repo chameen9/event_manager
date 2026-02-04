@@ -24,8 +24,8 @@
                     <div class="card-header">
                         <h4 class="card-title">{{$studentCount}} Students</h4>
                         <div class="btn-group">
-                            <a href="{{route('admin.students.showAdd')}}" class="btn btn-primary">+ Add new</a>
-                            <a href="{{route('admin.students.showImport')}}" class="btn btn-dark">Import</a>
+                            <!-- <a href="{{route('admin.students.showAdd')}}" class="btn btn-primary">+ Add new</a> -->
+                            <a href="{{route('admin.students.showImport')}}" class="btn btn-primary">+ Import</a>
                         </div>
                     </div>
                     <div class="card-body">

@@ -271,3 +271,27 @@
 
     })();
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const emailInput   = document.getElementById('email_input');
+        const phoneInput   = document.getElementById('phone_input');
+
+        const emailPreview = document.getElementById('email_preview');
+        const phonePreview = document.getElementById('phone_preview');
+
+        if (emailInput && emailPreview) {
+            emailInput.addEventListener('input', function () {
+                emailPreview.textContent = this.value || '-';
+            });
+        }
+
+        if (phoneInput && phonePreview) {
+            phoneInput.addEventListener('input', function () {
+                phonePreview.textContent = this.value || '-';
+            });
+        }
+
+    });
+</script>

@@ -22,4 +22,9 @@ class Registration extends Model
     {
         return $this->hasMany(ModuleCompletion::class);
     }
+
+    public function eventRegistration()
+    {
+        return $this->hasOne(EventRegistration::class);
+    }
 }

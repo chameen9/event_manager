@@ -320,6 +320,7 @@ class PhotoController extends Controller
 
                 // Unit price (single source of truth)
                 $unitPrice = PhotoPackage::where('id', $photoPackageId)->value('price');
+                $packageName = PhotoPackage::where('id', $photoPackageId)->value('name');
 
                 $deltaAmount = $diff * $unitPrice;
 
@@ -356,7 +357,7 @@ class PhotoController extends Controller
                 EventLog::create([
                     'event_registration_id' => $eventRegistrationId,
                     'action'      => 'Photos',
-                    'description' => "Photo package #{$photoPackageId} updated from {$currentQty} to {$newQty} by ~" . auth()->user()->name,
+                    'description' => "{$packageName} count updated from {$currentQty} to {$newQty} by ~" . auth()->user()->name,
                     'created_at'  => now(),
                 ]);
             }

@@ -135,13 +135,13 @@
                                                 <div class="col-lg-6 mb-2">
                                                     <div class="mb-3">
                                                         <label class="text-label form-label">Email Address<span class="required">*</span></label>
-                                                        <input type="text" name="email" class="form-control" placeholder="example@example.com" value="{{ old('email', $student->email) }}">
+                                                        <input type="text" id="email_input" name="email" class="form-control" placeholder="example@example.com" value="{{ old('email', $student->email) }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mb-2">
                                                     <div class="mb-3">
                                                         <label class="text-label form-label">Phone Number<span class="required">*</span></label>
-                                                        <input type="text" maxlength="10" name="phone" class="form-control" placeholder="07XXXXXXXX" value="{{ old('phone', $student->phone) }}">
+                                                        <input type="text" id="phone_input" maxlength="10" name="phone" class="form-control" placeholder="07XXXXXXXX" value="{{ old('phone', $student->phone) }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mb-3">
@@ -401,11 +401,11 @@
                                                             </li>
                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <span>Phone Number</span>
-                                                                <span>{{ $student->phone }}</span>
+                                                                <span id="phone_preview">{{ $student->phone }}</span>
                                                             </li>
                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <span>Email Address</span>
-                                                                <span>{{ $student->email }}</span>
+                                                                <span id="email_preview">{{ $student->email }}</span>
                                                             </li>
                                                         </ul>
                                                     </div>

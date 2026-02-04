@@ -242,4 +242,51 @@ class StudentController extends Controller
         $batches = Batch::all();
         return view('admin.students.import', compact(['programs','batches']));
     }
+
+    public function update(Request $request){
+        $student = Student::findOrFail($request->input('id'));
+
+        // Store old values before update
+        $oldData = $student->only(['full_name', 'email', 'phone']);
+
+        // Validate
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email'     => 'required|email',
+            'phone'     => 'required|string|max:20',
+        ]);
+
+        // Update student
+        $student->update($validated);
+
+        /* ----------------------------------
+        | Build change log
+        ---------------------------------- */
+        $changes = [];
+
+        foreach ($validated as $field => $newValue) {
+            $oldValue = $oldData[$field];
+
+            if ($oldValue != $newValue) {
+                $changes[] = ucfirst(str_replace('_', ' ', $field))
+                    . ": '{$oldValue}' → '{$newValue}'";
+            }
+        }
+
+        /* ----------------------------------
+        | Save log if something changed
+        ---------------------------------- */
+        if (!empty($changes)) {
+
+            EventLog::create([
+                'event_registration_id' => optional($student->eventRegistrations->first())->id,
+                'action'      => 'Student Update',
+                'description' => implode(', ', $changes) . ' by ~' . auth()->user()->name,
+                'created_at'  => now(),
+            ]);
+        }
+
+        return back()->with('success', 'Student details updated.');
+    }
+
 }
