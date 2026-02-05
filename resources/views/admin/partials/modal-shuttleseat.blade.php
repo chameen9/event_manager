@@ -1,7 +1,7 @@
 <div class="modal fade" id="addShuttleSeatModal" tabindex="-10">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            @if($eventData->shuttleSeats || $shuttleSeatsAvailable)
+            @if(($eventData && $eventData->shuttleSeats) || $shuttleSeatsAvailable)
                 <form method="POST" action="{{ route('admin.shuttleSeats.store') }}">
                     @csrf
 

@@ -15,7 +15,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Current Seats</label>
-                            <input type="number" class="form-control" name="new_additional_seat_count" value="{{ $eventData->seat->additional_seat_count }}">
+                            <input type="number" class="form-control" name="new_additional_seat_count" value="{{ $eventData?->seat?->additional_seat_count ?? 0 }}">
                         </div>
 
                         <div class="mb-3">

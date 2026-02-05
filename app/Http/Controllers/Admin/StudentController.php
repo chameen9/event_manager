@@ -16,6 +16,7 @@ use App\Models\EventLog;
 use App\Models\Program;
 use App\Models\Batch;
 use App\Models\Notification;
+use App\Models\PhotoPackage;
 
 class StudentController extends Controller
 {
@@ -102,6 +103,7 @@ class StudentController extends Controller
             ])
             ->firstOrFail();
 
+        $photoPackages = PhotoPackage::get();
         /*
         |--------------------------------------------------------------------------
         | Event registration & payment status
@@ -232,7 +234,8 @@ class StudentController extends Controller
             'eventPhotos',
             'eventPayment',
             'additionalSeatsAvailable',
-            'shuttleSeatsAvailable'
+            'shuttleSeatsAvailable',
+            'photoPackages'
             ]));
 
     }
